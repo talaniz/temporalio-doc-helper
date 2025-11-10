@@ -3,6 +3,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
 
+from app.llm.langchain_agent import BatchedOllamaEmbeddings
+
 DOC_URLS = [
     "https://learn.temporal.io/getting_started/python/dev_environment/",
     "https://learn.temporal.io/getting_started/python/first_program_in_python/",
@@ -23,8 +25,8 @@ def main():
     )
     split_docs = splitter.split_documents(docs)
 
-    embeddings = OllamaEmbeddings(model="nomic-embed-text")  # or similar
-    Chroma.from_documents(
+    embeddings = BatchedOllamaEmbeddings()
+    vectordb = Chroma.from_documents(
         split_docs,
         embedding=embeddings,
         persist_directory="chroma_temporal_docs",

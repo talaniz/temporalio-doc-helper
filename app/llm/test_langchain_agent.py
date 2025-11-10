@@ -1,5 +1,8 @@
 import pytest
-from langchain_agent import is_temporal_question, answer_temporal_question
+from app.llm.langchain_agent import (
+    is_temporal_question,
+    answer_temporal_question,
+)
 
 class FakeChain:
     def __init__(self, ressponse: str):
@@ -48,4 +51,4 @@ async def test_answer_temporal_question_uses_chain_and_returns_text():
     result = await answer_temporal_question(question, chain=chain)
 
     assert "Temporal workflows guarantee" in result
-    assert chain.last_input["question"] == question
+    assert chain.last_input == question

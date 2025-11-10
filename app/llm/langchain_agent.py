@@ -1,6 +1,7 @@
 import asyncio
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaLLM
+from langchain_community.embeddings import OllamaEmbeddings as BaseOllamaEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableSequence, RunnableParallel, RunnablePassthrough
@@ -97,5 +98,36 @@ async def answer_temporal_question(question: str, chain=None) -> str:
         chain = build_doc_qa_chain()
 
     loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, chain.invoke, {"question": question})
+    result = await loop.run_in_executor(None, chain.invoke, question)
     return result.strip()
+
+class BatchedOllamaEmbeddings:
+    """
+    Thin wrapper around LangChain's OllamaEmbeddings so that:
+      - Chroma can call embed_documents(List[str])
+      - We can control model/base_url cleanly
+    """
+
+    def __init__(
+        self,
+        model: str = "nomic-embed-text",
+        base_url: str = "http://127.0.0.1:11434",
+        **kwargs,
+    ):
+        # Single, well-behaved inner instance
+        self._inner = OllamaEmbeddings(
+            model=model,
+            base_url=base_url,
+            **kwargs,
+        )
+
+    def embed_query(self, text: str):
+        """Delegate directly to the real OllamaEmbeddings implementation."""
+        return self._inner.embed_query(text)
+
+    def embed_documents(self, texts):
+        """
+        Chroma calls this with List[str]. We just map each text through
+        embed_query on the inner embeddings instance.
+        """
+        return [self._inner.embed_query(t) for t in texts]
