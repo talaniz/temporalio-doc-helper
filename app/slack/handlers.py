@@ -1,16 +1,20 @@
 from typing import Dict
 
 from app.slack.utils import send_message_to_slack
+from app.llm.langchain_agent import is_temporal_question
 
 async def handle_message(event: Dict) -> Dict:
-    text = event.get("text", "").lower()
-    channel = event.get("channel")
+    text = event.get("text", "")
+    channel = event["channel"]
 
-    print("handle_message triggered:", event)
+    if not text:
+        return
 
-    if "hello" in text:
-        await send_message_to_slack(channel, "Hello, world! :wave:")
-    return {"status": "ok"}
+    if await is_temporal_question(text):
+        await send_message_to_slack(channel, "Good question! Let me check the docs for you...")
+        # TODO: next step — call the doc lookup chain
+    else:
+        print(f"Ignored non-Temporal question: {text}")
 
 async def handle_reaction(event: Dict) -> Dict:
     reaction = event.get("reaction")
