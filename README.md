@@ -1,4 +1,4 @@
-#Temporal Documentation Helper
+# Temporal Documentation Helper
 
 This Slack bot evaluates questions and provides responses if they can be found in the Temporal documentation.
 
