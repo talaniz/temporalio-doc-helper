@@ -1,6 +1,6 @@
 # Temporal Documentation Helper
 
-This Slack bot evaluates questions and provides responses if they can be found in the Temporal documentation.
+This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
 
 ## Setup
 - Create a .env file in the root directory and populate the following fields:
