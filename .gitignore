@@ -6,3 +6,4 @@ __pycache__/
 app/.DS_Store
 chroma_temporal_docs
 .env
+.coverage
