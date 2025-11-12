@@ -3,7 +3,10 @@
 This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
 
 ## Setup
-- Create a .env file in the root directory and populate the following fields:
+- Create a new virtualenv `python -m ~/path/to/temporalio`
+- Activate virtualenv `source bin ~/path/to/temporalio/bin/activate`
+- Install pre-requisites `pip install -r requirements.txt`
+- Create a .env file (`touch .env`) in the root directory and populate the following fields:
     - SLACK_BOT_TOKEN
     - SLACK_SIGNING_SECRET
     - SLACK_CLIENT_ID
