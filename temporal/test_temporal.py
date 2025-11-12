@@ -1,10 +1,10 @@
-# temporal/test_temporal.py
+"""Integration-level Temporal workflow tests."""
+
 import asyncio
 import inspect
 import uuid
 
 import pytest
-
 from temporalio.testing import WorkflowEnvironment
 from temporalio.client import Client
 from temporalio.worker import Worker
@@ -12,10 +12,6 @@ from temporalio.worker import Worker
 from temporal import activities as activities_mod
 from temporal import workflows as workflows_mod
 
-
-# ----------------------------
-# Helpers / Fixtures
-# ----------------------------
 
 @pytest.fixture(scope="session")
 def any_event_loop():
@@ -40,10 +36,6 @@ def fake_answer_monkeypatch(monkeypatch):
     return _fake_agent_call
 
 
-# ----------------------------
-# Activity unit test
-# ----------------------------
-
 @pytest.mark.asyncio
 async def test_run_doc_qa_activity_happy_path(fake_answer_monkeypatch):
     assert hasattr(activities_mod, "run_doc_qa"), "run_doc_qa activity not found"
@@ -61,10 +53,6 @@ async def test_run_doc_qa_activity_happy_path(fake_answer_monkeypatch):
     assert question in result
 
 
-# ----------------------------
-# Workflow end-to-end test
-# ----------------------------
-
 @pytest.mark.asyncio
 async def test_workflow_executes_activity_end_to_end(fake_answer_monkeypatch):
     assert hasattr(workflows_mod, "AnswerTemporalQuestionWorkflow")
@@ -73,7 +61,6 @@ async def test_workflow_executes_activity_end_to_end(fake_answer_monkeypatch):
     workflow_id = "wf-" + uuid.uuid4().hex[:8]
     question = "Name 2 failure-retry tips in Temporal."
 
-    # NOTE: await the coroutine returned by start_time_skipping()
     async with await WorkflowEnvironment.start_time_skipping() as env:
         client: Client = env.client
 
@@ -97,10 +84,6 @@ async def test_workflow_executes_activity_end_to_end(fake_answer_monkeypatch):
     assert question in result
 
 
-# ----------------------------
-# Worker wiring smoke test
-# ----------------------------
-
 @pytest.mark.asyncio
 async def test_worker_can_register_defs_without_running():
     from temporal import worker as worker_mod  # local import on purpose
@@ -119,10 +102,6 @@ async def test_worker_can_register_defs_without_running():
         worker = Worker(client, task_queue=tq, workflows=wf_defs, activities=act_defs)
         assert worker is not None
 
-
-# ----------------------------
-# Small guards
-# ----------------------------
 
 def test_activity_is_pure_python_callable():
     assert callable(getattr(activities_mod, "run_doc_qa", None))

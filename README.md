@@ -2,7 +2,11 @@
 
 This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
 
+## Prerequisites
+Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace.
+
 ## Setup
+- Clone repo
 - Create a new virtualenv `python -m ~/path/to/temporalio`
 - Activate virtualenv `source bin ~/path/to/temporalio/bin/activate`
 - Install pre-requisites `pip install -r requirements.txt`
@@ -13,11 +17,18 @@ This Slack bot evaluates questions and provides responses if they can be found i
     - SLACK_CLIENT_SECRET
     - SLACK_REDIRECT_URI
     - SLACK_BOT_USER_ID
+- Install the Temporal CLI `brew install temporal`
+
 
 ## Running
-
 - Start the bot
 `uvicorn main:app --reload --host 0.0.0.0 --port 8000`
 
 - Expose it to the world
 `ngrok http --url=${NGROK_URL}$ 8000`
+
+- Start the Temporal server
+`temporal server start-dev --ui-port 8080`
+
+- Start the Temporal worker
+`cd temporalio-doc-helper && python -m temporal.worker`

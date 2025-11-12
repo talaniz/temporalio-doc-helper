@@ -1,4 +1,5 @@
 import asyncio
+
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaLLM
 from langchain_community.embeddings import OllamaEmbeddings as BaseOllamaEmbeddings
@@ -24,7 +25,9 @@ _classifier_prompt = PromptTemplate.from_template(
     """
 )
 
+
 def build_classifier_chain():
+    """Create the chain to classify Slack questions."""
     llm = OllamaLLM(model="llama3")
     return RunnableSequence(
         _classifier_prompt,
@@ -32,17 +35,19 @@ def build_classifier_chain():
         StrOutputParser(),
     )
 
+
 async def is_temporal_question(question: str, chain=None) -> bool:
     """
-    Uses a LangChain 'chain' to decide if this is a Temporal question.
-    `chain` is injectable so we can swap in a fake for tests.
+    Use a LangChain chain to determine if the question should be answered.
     """
     if chain is None:
         chain = build_classifier_chain()
 
     loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, chain.invoke, {"question": question})
+    result = await loop.run_in_executor(None, 
+                                        chain.invoke, {"question": question})
     return result.strip().upper().startswith("YES")
+
 
 def load_temporal_vectorstore():
     """Load the persisted Chroma index for Temporal docs."""
@@ -51,6 +56,7 @@ def load_temporal_vectorstore():
         persist_directory=CHROMA_DIR,
         embedding_function=embeddings,
     )
+
 
 _qa_prompt = PromptTemplate.from_template(
     """
@@ -72,13 +78,12 @@ _qa_prompt = PromptTemplate.from_template(
 
 def build_doc_qa_chain():
     """
-    Build a retrieval-augmented generation chain for Temporal docs.
+    Build a RAG chain for Temporal docs.
     """
     vectordb = load_temporal_vectorstore()
     retriever = vectordb.as_retriever(search_kwargs={"k": 4})
     llm = OllamaLLM(model="llama3")
 
-    # We pass the question straight through and also to the retriever.
     return (
         RunnableParallel(
             context=retriever,
@@ -88,6 +93,7 @@ def build_doc_qa_chain():
         | llm
         | StrOutputParser()
     )
+
 
 async def answer_temporal_question(question: str, chain=None) -> str:
     """
@@ -100,6 +106,7 @@ async def answer_temporal_question(question: str, chain=None) -> str:
     loop = asyncio.get_event_loop()
     result = await loop.run_in_executor(None, chain.invoke, question)
     return result.strip()
+
 
 class BatchedOllamaEmbeddings:
     """

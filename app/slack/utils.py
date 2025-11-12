@@ -1,7 +1,9 @@
 import os
+
 import httpx
 
 SLACK_API_URL = "https://slack.com/api/chat.postMessage"
+
 
 async def send_message_to_slack(channel: str, message: str):
     SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")

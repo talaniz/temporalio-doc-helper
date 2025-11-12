@@ -1,6 +1,8 @@
 from app.slack.handlers import handle_message, handle_reaction
 
+
 async def handle_slack_event(payload):
+    """Route Slack events by type."""
     print("Incoming payload:", payload)
     event = payload.get("event", {})
     if "bot_id" in event:
