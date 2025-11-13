@@ -2,8 +2,11 @@
 
 > **NOTE**: This branch contains instructions for setting up the "Temporalized" version of the temporal-documentation-helper, switch to the main branch for the original version.
 
-
 This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
+
+### Branches
+- `main`: directly queries Ollama to classify questions and generate responses.
+- `temporal`: relies on Temporal workflows to handle LLM processing.
 
 ## Prerequisites
 
