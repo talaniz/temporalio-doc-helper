@@ -48,4 +48,6 @@ This Slack bot evaluates questions and provides responses if they can be found i
 
 
 ## Usage
-Navigate to the 
+Navigate to the primary channel the bot is configured to listen on and submit a random question, then a question about the Temporal platform. 
+- Unrelated questions should be ignored
+- Questions about Temporal should receive a reply with a response referencing the documentation.
