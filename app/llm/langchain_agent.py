@@ -1,12 +1,10 @@
 import asyncio
 
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaLLM
-from langchain_community.embeddings import OllamaEmbeddings as BaseOllamaEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableSequence, RunnableParallel, RunnablePassthrough
-from langchain_ollama import OllamaEmbeddings
+from langchain_ollama import OllamaLLM, OllamaEmbeddings
 
 # Build using scripts/build_temporal_index.py
 CHROMA_DIR = "chroma_temporal_docs"

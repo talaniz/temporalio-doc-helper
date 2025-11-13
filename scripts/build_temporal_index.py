@@ -1,7 +1,6 @@
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings
 
 from app.llm.langchain_agent import BatchedOllamaEmbeddings
 

@@ -90,6 +90,7 @@ async def handle_message(event: Dict) -> Dict:
 
     return None
 
+
 async def handle_reaction(event: Dict) -> Dict:
     reaction = event.get("reaction")
     item = event.get("item", {})

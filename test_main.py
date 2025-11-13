@@ -1,4 +1,4 @@
-"""Testing module."""
+"""Slack integration testing module."""
 import unittest
 
 from fastapi.testclient import TestClient

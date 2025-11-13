@@ -7,7 +7,10 @@ This Slack bot evaluates questions and provides responses if they can be found i
 
 ## Prerequisites
 
-- Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace.
+- Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace. Include the following permissions and event subscriptions:
+    - Actions: `chat:write`
+    - Information: `channels:history`, `reactions:read`
+    - Events: `message.channels`, `reaction_added`
 - Setup a free [Ngrok account](https://ngrok.com/pricing) to expose the bot to the world.
 - Download and install [Ollama](https://ollama.com/)
 
@@ -23,6 +26,7 @@ This Slack bot evaluates questions and provides responses if they can be found i
     - SLACK_CLIENT_SECRET
     - SLACK_REDIRECT_URI
     - SLACK_BOT_USER_ID
+- Generate the Chroma vectorstore `python scripts/build_temporal_index.py`
 - Install the Temporal CLI `brew install temporal`
 
 
@@ -41,3 +45,7 @@ This Slack bot evaluates questions and provides responses if they can be found i
 
 - Start the Temporal worker
 `cd temporalio-doc-helper && python -m temporal.worker`
+
+
+## Usage
+Navigate to the 
