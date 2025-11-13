@@ -1,7 +1,6 @@
+from langchain_chroma import Chroma
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings
-from langchain_chroma import Chroma
 
 from app.llm.langchain_agent import BatchedOllamaEmbeddings
 
@@ -14,6 +13,7 @@ DOC_URLS = [
 
     # keep this to 3–5 pages so it’s fast
 ]
+
 
 def main():
     loader = WebBaseLoader(DOC_URLS)
@@ -32,6 +32,7 @@ def main():
         persist_directory="chroma_temporal_docs",
     )
     print("Index built in ./chroma_temporal_docs")
+
 
 if __name__ == "__main__":
     main()

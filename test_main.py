@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 class TestSlackClient(unittest.TestCase):
-    
+
     def setUp(self):
         self.client = TestClient(app)
 
@@ -47,4 +47,3 @@ class TestSlackClient(unittest.TestCase):
         response = self.client.post("/slack/events", json=event_data)
         assert response.status_code == 200
         assert response.json() == {"status": "ok"}
-

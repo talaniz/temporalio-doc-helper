@@ -1,4 +1,3 @@
-"""Main module for digital developer advocate"""
 import asyncio
 import os
 

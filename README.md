@@ -21,6 +21,7 @@ This Slack bot evaluates questions and provides responses if they can be found i
     - SLACK_CLIENT_SECRET
     - SLACK_REDIRECT_URI
     - SLACK_BOT_USER_ID
+- Generate the Chroma vectorstore `python scripts/build_temporal_index.py`
 - Install the Temporal CLI `brew install temporal`
 
 ## Running

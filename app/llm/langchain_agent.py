@@ -1,10 +1,10 @@
 import asyncio
+
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaLLM
-from langchain_community.embeddings import OllamaEmbeddings as BaseOllamaEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableSequence, RunnableParallel, RunnablePassthrough
+from langchain_ollama import OllamaLLM
 from langchain_ollama import OllamaEmbeddings
 
 # Build using scripts/build_temporal_index.py
@@ -24,13 +24,16 @@ _classifier_prompt = PromptTemplate.from_template(
     """
 )
 
+
 def build_classifier_chain():
+    """Chain used to evaluate if question is related to Temporal."""
     llm = OllamaLLM(model="llama3")
     return RunnableSequence(
         _classifier_prompt,
         llm,
         StrOutputParser(),
     )
+
 
 async def is_temporal_question(question: str, chain=None) -> bool:
     """
@@ -44,6 +47,7 @@ async def is_temporal_question(question: str, chain=None) -> bool:
     result = await loop.run_in_executor(None, chain.invoke, {"question": question})
     return result.strip().upper().startswith("YES")
 
+
 def load_temporal_vectorstore():
     """Load the persisted Chroma index for Temporal docs."""
     embeddings = OllamaEmbeddings(model="nomic-embed-text")
@@ -51,6 +55,7 @@ def load_temporal_vectorstore():
         persist_directory=CHROMA_DIR,
         embedding_function=embeddings,
     )
+
 
 _qa_prompt = PromptTemplate.from_template(
     """
@@ -89,6 +94,7 @@ def build_doc_qa_chain():
         | StrOutputParser()
     )
 
+
 async def answer_temporal_question(question: str, chain=None) -> str:
     """
     Use the Temporal docs QA chain to answer a question.
@@ -100,6 +106,7 @@ async def answer_temporal_question(question: str, chain=None) -> str:
     loop = asyncio.get_event_loop()
     result = await loop.run_in_executor(None, chain.invoke, question)
     return result.strip()
+
 
 class BatchedOllamaEmbeddings:
     """
