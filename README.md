@@ -1,10 +1,12 @@
 # Temporal Documentation Helper
 
-> **NOTE**: This branch contains instructions for setting up the "Temporalized" version of the temporal-documentation-helper, switch to the master branch for the original version.
+> **NOTE**: This branch contains instructions for setting up the "Temporalized" version of the temporal-documentation-helper, switch to the main branch for the original version.
+
 
 This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
 
 ## Prerequisites
+
 - Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace.
 - Setup a free [Ngrok account](https://ngrok.com/pricing) to expose the bot to the world.
 
