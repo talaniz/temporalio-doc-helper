@@ -4,6 +4,10 @@
 
 This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
 
+### Branches
+- `main`: directly queries Ollama to classify questions and generate responses.
+- `temporal`: relies on Temporal workflows to handle LLM processing.
+
 ## Prerequisites
 - Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace. Include the following permissions and event subscriptions:
     - Actions: `chat:write`
