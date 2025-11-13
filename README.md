@@ -9,6 +9,7 @@ This Slack bot evaluates questions and provides responses if they can be found i
 
 - Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace.
 - Setup a free [Ngrok account](https://ngrok.com/pricing) to expose the bot to the world.
+- Download and install [Ollama](https://ollama.com/)
 
 ## Setup
 - Clone repo
@@ -31,6 +32,9 @@ This Slack bot evaluates questions and provides responses if they can be found i
 
 - Expose it to the world
 `ngrok http --url=${NGROK_URL}$ 8000`
+
+- Start Ollama
+`ollama run llama3`
 
 - Start the Temporal server
 `temporal server start-dev --ui-port 8080`
