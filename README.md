@@ -5,7 +5,10 @@
 This Slack bot evaluates questions and provides responses if they can be found in the [Temporal Technologies documentation](https://docs.temporal.io/).
 
 ## Prerequisites
-- Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace.
+- Configure a [Slack application](https://docs.slack.dev/tools/bolt-python/building-an-app) in your workspace. Include the following permissions and event subscriptions:
+    - Actions: `chat:write`
+    - Information: `channels:history`, `reactions:read`
+    - Events: `message.channels`, `reaction_added`
 - Setup a free [Ngrok account](https://ngrok.com/pricing) to expose the bot to the world.
 - Download and install [Ollama](https://ollama.com/)
 
@@ -34,9 +37,7 @@ This Slack bot evaluates questions and provides responses if they can be found i
 - Start Ollama
 `ollama run llama3`
 
-- Start the Temporal server
-`temporal server start-dev --ui-port 8080`
-
-- Start the Temporal worker
-`cd temporalio-doc-helper && python -m temporal.worker`
-
+## Usage
+Navigate to the primary channel the bot is configured to listen on and submit a random question, then a question about the Temporal platform. 
+- Unrelated questions should be ignored
+- Questions about Temporal should receive a reply with a response referencing the documentation.
